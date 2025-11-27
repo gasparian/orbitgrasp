@@ -21,3 +21,4 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.pcd
+!/models/equiformer_v2/Jd.pt
