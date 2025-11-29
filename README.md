@@ -269,6 +269,19 @@ OpenAPI documentation and an interactive UI are available at:
 * Swagger UI: `http://localhost:8000/docs`
 * OpenAPI schema: `http://localhost:8000/openapi.json`
 
+Generating the client:
+```bash
+pip install openapi-python-client
+openapi-python-client generate --overwrite --url http://localhost:8000/openapi.json
+```  
+
+then install it from the generated client root (being in your virtual env. / conda env.):  
+```bash
+cd orbit-grasp-inference-api-client && pip install .
+```
+
+Usage example you can find at [test_openapi_client.py](./scripts/test_openapi_client.py).  
+
 ## Dockerized server
 
 A minimal Docker image can be used to run the HTTP inference server in an isolated environment based on Ubuntu 24.04 and Python 3.10 (via the existing `conda_environment.yaml`).
@@ -292,24 +305,6 @@ Expose the server on port 8000:
 ```bash
 docker run --rm -it --name orbitgrasp-server --device nvidia.com/gpu=all -p 8000:8000 orbitgrasp-server
 ```
-
-Once running, the API and OpenAPI UI are available at:
-
-* Swagger UI: `http://localhost:8000/docs`
-* OpenAPI schema: `http://localhost:8000/openapi.json`
-
-Generating the client:
-```bash
-pip install openapi-python-client
-openapi-python-client generate --overwrite --url http://localhost:8000/openapi.json
-```  
-
-then install it from the generated client root (being in your virtual env. / conda env.):  
-```bash
-cd orbit-grasp-inference-api-client && pip install .
-```
-
-Usage example you can find at [test_openapi_client.py](./scripts/test_openapi_client.py).  
 
 ## License
 This repository is released under the MIT license. See [LICENSE](LICENSE) for additional details.
