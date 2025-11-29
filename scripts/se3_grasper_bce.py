@@ -2,7 +2,7 @@ import os
 import sys
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from se3_grasp_bce import OrbitGrasp
+from scripts.se3_grasp_bce import OrbitGrasp
 from utils.torch_utils import write_training, write_log
 import warnings
 from tqdm import tqdm

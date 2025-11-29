@@ -208,6 +208,96 @@ x y z qx qy qz qw
 
 You can change the configuration (e.g., device, checkpoint path) via `scripts/single_config.yaml` without modifying the script.
 
+## HTTP inference server
+
+For integration with external systems, a small HTTP server is provided that exposes OrbitGrasp inference through a JSON API.
+
+The server is implemented in:
+
+* `scripts/orbitgrasp_server.py`
+
+It uses the same configuration and checkpoint as the single point cloud utility by default (`scripts/single_config.yaml`), or a custom config can be passed via the `ORBITGRASP_CONFIG` environment variable.
+
+### Running the server
+
+From the repository root, activate the `orbitgrasp` environment and run:
+
+```bash
+uvicorn scripts.orbitgrasp_server:app --host 0.0.0.0 --port 8000
+```
+
+By default, the server will:
+
+1. Load the OrbitGrasp model once at startup.
+2. Reuse the same model instance across all incoming requests.
+
+### API
+
+* **Endpoint:** `POST /detect`
+
+* **Request body (JSON):**
+
+  ```json
+  {
+    "points": [
+      [x0, y0, z0],
+      [x1, y1, z1]
+    ]
+  }
+  ```
+
+  where `points` is a list of 3D points in the camera/world frame.
+
+* **Response body (JSON):**
+
+  ```json
+  {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0,
+    "qx": 0.0,
+    "qy": 0.0,
+    "qz": 0.0,
+    "qw": 1.0
+  }
+  ```
+
+  which represents a single SE(3) grasp pose `[x, y, z, qx, qy, qz, qw]`.
+
+OpenAPI documentation and an interactive UI are available at:
+
+* Swagger UI: `http://localhost:8000/docs`
+* OpenAPI schema: `http://localhost:8000/openapi.json`
+
+## Dockerized server
+
+A minimal Docker image can be used to run the HTTP inference server in an isolated environment based on Ubuntu 24.04 and Python 3.10 (via the existing `conda_environment.yaml`).
+
+### Build
+
+From the repository root:
+
+```bash
+sudo docker build --network=host \
+  --build-arg HTTP_PROXY=http://127.0.0.1:1081 \
+  --build-arg HTTPS_PROXY=http://127.0.0.1:1081 \
+  --build-arg NO_PROXY=localhost,127.0.0.1,::1 \
+  -t orbitgrasp-server .
+```
+
+### Run
+
+Expose the server on port 8000:
+
+```bash
+docker run --rm --gpus "device=0" -p 8000:8000 orbitgrasp-server
+```
+
+Once running, the API and OpenAPI UI are available at:
+
+* Swagger UI: `http://localhost:8000/docs`
+* OpenAPI schema: `http://localhost:8000/openapi.json`
+
 ## License
 This repository is released under the MIT license. See [LICENSE](LICENSE) for additional details.
 

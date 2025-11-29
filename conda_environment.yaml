@@ -316,3 +316,7 @@ dependencies:
       - torch-cluster==1.6.3
       - torch-geometric==2.6.1
       - torch-scatter==2.1.2
+      - fastapi
+      - "uvicorn[standard]"
+      - configargparse
+      - nbformat>=5.7.0

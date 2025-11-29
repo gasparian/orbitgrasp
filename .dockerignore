@@ -1,0 +1,9 @@
+*
+!dataset/
+!models/
+!pretrained/
+!scripts/
+!simulator/
+!utils/
+!conda_environment.yaml
+__pycache__

@@ -8,7 +8,7 @@ import torch
 from e3nn.o3 import spherical_harmonics_alpha_beta
 from torch_geometric.nn import radius
 
-from se3_grasper_bce import OrbitGrasper  # type: ignore
+from scripts.se3_grasper_bce import OrbitGrasper  # type: ignore
 from utils.FeaturedPoints import FeaturedPoints  # type: ignore
 from utils.utils_3d import FarthestSampler  # type: ignore
 from utils.torch_utils import set_seed  # type: ignore
