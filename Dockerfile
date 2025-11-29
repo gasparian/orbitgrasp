@@ -1,4 +1,4 @@
-FROM nvidia/cuda:12.4.1-runtime-ubuntu24.04
+FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive \
     TZ=Etc/UTC
@@ -15,7 +15,9 @@ RUN apt-get update && \
         wget \
         bzip2 \
         ca-certificates \
-        git && \
+        git \
+        libglib2.0-0 \
+        libgl1 && \
     rm -rf /var/lib/apt/lists/*
 
 RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh && \
