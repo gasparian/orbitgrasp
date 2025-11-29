@@ -164,6 +164,50 @@ python ./scripts/test_grasp_multi.py
 
 Remember to load the correct checkpoint in the `./scripts/single_config.yaml` and `./scripts/multi_config.yaml`.
 
+## Simple single point cloud inference
+
+For quick use in downstream projects, we provide a small utility script that runs OrbitGrasp on a **single point cloud file** and returns one SE(3) grasp pose together with estimated fingertip contact points.
+
+The script is implemented in:
+
+* `scripts/grasp_from_pcd.py`
+* `scripts/orbitgrasp_inference/` (small helper package used by the script)
+
+By default, it uses the single-camera configuration from `scripts/single_config.yaml` and the checkpoint specified there.
+
+### Example
+
+Assuming you have:
+
+* A preprocessed point cloud `masked.pcd` in the camera/world frame.
+* The single-camera checkpoint configured in `scripts/single_config.yaml`.
+
+You can run:
+
+```bash
+python scripts/grasp_from_pcd.py masked.pcd --save-pcd masked_grasp.pcd
+```
+
+This will:
+
+1. Load and preprocess `masked.pcd` (denoising, normals, voxel downsampling).
+2. Run OrbitGrasp to score local grasp candidates and select the best one.
+3. Print the resulting grasp pose as a single line:
+
+```text
+x y z qx qy qz qw
+```
+
+4. If `--save-pcd` is provided, save a new point cloud `masked_grasp.pcd` (or `.ply`) containing:
+
+   * The original point cloud (colored blue).
+   * A small green sphere marking:
+
+     * The grasp position.
+     * The two estimated fingertip contact points.
+
+You can change the configuration (e.g., device, checkpoint path) via `scripts/single_config.yaml` without modifying the script.
+
 ## License
 This repository is released under the MIT license. See [LICENSE](LICENSE) for additional details.
 
