@@ -290,7 +290,7 @@ sudo docker build --network=host \
 Expose the server on port 8000:
 
 ```bash
-docker run --rm --gpus "device=0" -p 8000:8000 orbitgrasp-server
+docker run --rm -it --name orbitgrasp-server --device nvidia.com/gpu=all -p 8000:8000 orbitgrasp-server
 ```
 
 Once running, the API and OpenAPI UI are available at:
