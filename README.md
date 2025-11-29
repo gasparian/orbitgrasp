@@ -298,6 +298,19 @@ Once running, the API and OpenAPI UI are available at:
 * Swagger UI: `http://localhost:8000/docs`
 * OpenAPI schema: `http://localhost:8000/openapi.json`
 
+Generating the client:
+```bash
+pip install openapi-python-client
+openapi-python-client generate --overwrite --url http://localhost:8000/openapi.json
+```  
+
+then install it from the generated client root (being in your virtual env. / conda env.):  
+```bash
+cd orbit-grasp-inference-api-client && pip install .
+```
+
+Usage example you can find at [test_openapi_client.py](./scripts/test_openapi_client.py).  
+
 ## License
 This repository is released under the MIT license. See [LICENSE](LICENSE) for additional details.
 

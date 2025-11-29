@@ -22,6 +22,7 @@ test_dataset:
 
 orbit_grasper:
   device: "cuda:0"
+  # device: "cpu"
   lr: 0.0001
   load: 0
   param_dir: "./scripts/output/store/single"
